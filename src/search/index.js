@@ -7,12 +7,14 @@ import logo from "./images/logo.png";
 // import "../../common";
 import "./search.less";
 // import { a } from "./tree-shaking";
+import largeNumber from "large-number";
 
 class Search extends React.Component {
 	constructor() {
 		super(...arguments);
 		this.state = {
 			Text: null,
+			result: null,
 		};
 	}
 	loadComponent() {
@@ -21,13 +23,18 @@ class Search extends React.Component {
 				Text: Text.default,
 			});
 		});
+		const result = largeNumber("9999999", "1");
+		this.setState({
+			result,
+		});
 	}
 	render() {
-		const { Text } = this.state;
+		const { Text, result } = this.state;
 		return (
 			<div className="search-text">
 				Search 寺院
 				{Text ? <Text /> : null}
+				{result ? result : null}
 				<img
 					width={30}
 					height={30}
