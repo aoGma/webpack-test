@@ -2,11 +2,12 @@
 
 const path = require("path");
 const glob = require("glob");
+const webpack = require("webpack");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
-// const HtmlWebpackExternalsPlugin = require("html-webpack-externals-plugin");
+const HtmlWebpackExternalsPlugin = require("html-webpack-externals-plugin");
 
 const setMPA = () => {
 	const entry = {};
@@ -22,7 +23,7 @@ const setMPA = () => {
 			new HtmlWebpackPlugin({
 				template: path.join(__dirname, `src/${pageName}/${pageName}.html`),
 				filename: `${pageName}.html`,
-				chunks: ["commons", pageName],
+				chunks: [pageName],
 				inject: true,
 				minify: {
 					html5: true,
@@ -51,7 +52,7 @@ module.exports = {
 		filename: "[name]_[chunkhash:8].js",
 		publicPath: "./",
 	},
-	mode: "production",
+	mode: "none",
 	module: {
 		rules: [
 			{
@@ -119,23 +120,24 @@ module.exports = {
 			assetNameRegExp: /\.css$/g,
 			cssProcessor: require("cssnano"),
 		}),
+		new webpack.optimize.ModuleConcatenationPlugin(),
 		new CleanWebpackPlugin(),
-		// new HtmlWebpackExternalsPlugin({
-		// 	externals: [
-		// 		{
-		// 			module: "react",
-		// 			entry:
-		// 				"https://cdnjs.cloudflare.com/ajax/libs/react/16.2.0/umd/react.production.min.js",
-		// 			global: "React",
-		// 		},
-		// 		{
-		// 			module: "react-dom",
-		// 			entry:
-		// 				"https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.2.0/umd/react-dom.production.min.js",
-		// 			global: "ReactDOM",
-		// 		},
-		// 	],
-		// }),
+		new HtmlWebpackExternalsPlugin({
+			externals: [
+				{
+					module: "react",
+					entry:
+						"https://cdnjs.cloudflare.com/ajax/libs/react/16.2.0/umd/react.production.min.js",
+					global: "React",
+				},
+				{
+					module: "react-dom",
+					entry:
+						"https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.2.0/umd/react-dom.production.min.js",
+					global: "ReactDOM",
+				},
+			],
+		}),
 	].concat(HtmlWebpackPlugins),
 	// optimization: {
 	// 	splitChunks: {
@@ -148,17 +150,17 @@ module.exports = {
 	// 		},
 	// 	},
 	// },
-	optimization: {
-		splitChunks: {
-			minSize: 0,
-			cacheGroups: {
-				commons: {
-					name: "commons",
-					chunks: "all",
-					minChunks: 2,
-				},
-			},
-		},
-	},
+	// optimization: {
+	// 	splitChunks: {
+	// 		minSize: 0,
+	// 		cacheGroups: {
+	// 			commons: {
+	// 				name: "commons",
+	// 				chunks: "all",
+	// 				minChunks: 2,
+	// 			},
+	// 		},
+	// 	},
+	// },
 	devtool: "source-map",
 };
