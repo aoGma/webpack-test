@@ -1,5 +1,3 @@
-"use strict";
-
 const path = require("path");
 const glob = require("glob");
 const webpack = require("webpack");
@@ -57,7 +55,7 @@ module.exports = {
 		rules: [
 			{
 				test: /.js$/,
-				use: "babel-loader",
+				use: ["babel-loader", "eslint-loader"],
 			},
 			{
 				test: /.css$/,
