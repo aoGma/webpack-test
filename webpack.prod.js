@@ -2,12 +2,13 @@
 
 const path = require("path");
 const glob = require("glob");
-const webpack = require("webpack");
+// const webpack = require("webpack");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
 const HtmlWebpackExternalsPlugin = require("html-webpack-externals-plugin");
+const FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin");
 
 const setMPA = () => {
 	const entry = {};
@@ -46,13 +47,14 @@ const setMPA = () => {
 const { entry, HtmlWebpackPlugins } = setMPA();
 
 module.exports = {
+	stats: "errors-only",
 	entry,
 	output: {
 		path: path.resolve(__dirname, "dist"),
 		filename: "[name]_[chunkhash:8].js",
 		publicPath: "./",
 	},
-	mode: "none",
+	mode: "production",
 	module: {
 		rules: [
 			{
@@ -120,7 +122,7 @@ module.exports = {
 			assetNameRegExp: /\.css$/g,
 			cssProcessor: require("cssnano"),
 		}),
-		new webpack.optimize.ModuleConcatenationPlugin(),
+		// new webpack.optimize.ModuleConcatenationPlugin(),
 		new CleanWebpackPlugin(),
 		new HtmlWebpackExternalsPlugin({
 			externals: [
@@ -138,6 +140,7 @@ module.exports = {
 				},
 			],
 		}),
+		new FriendlyErrorsWebpackPlugin(),
 	].concat(HtmlWebpackPlugins),
 	// optimization: {
 	// 	splitChunks: {

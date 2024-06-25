@@ -5,6 +5,7 @@ const webpack = require("webpack");
 const glob = require("glob");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin");
 const HtmlWebpackExternalsPlugin = require("html-webpack-externals-plugin");
 
 const setMPA = () => {
@@ -90,20 +91,22 @@ module.exports = {
 					module: "react",
 					entry:
 						"https://cdnjs.cloudflare.com/ajax/libs/react/16.2.0/umd/react.production.min.js",
-					global: "react",
+					global: "React",
 				},
 				{
-					module: "react",
+					module: "react-dom",
 					entry:
 						"https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.2.0/umd/react-dom.production.min.js",
-					global: "react",
+					global: "ReactDOM",
 				},
 			],
 		}),
+		new FriendlyErrorsWebpackPlugin(),
 	].concat(HtmlWebpackPlugins),
 	devServer: {
 		contentBase: "./dist",
 		hot: true,
+		stats: "errors-only",
 	},
 	devtool: "source-map",
 };
