@@ -1,0 +1,52 @@
+{
+	"name": "webpack-test",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"build": "webpack --config ./builder-webpack/lib/webpack.prod.js",
+		"build:ssr": "webpack --config webpack.ssr.js",
+		"watch": "webpack --config webpack.dev.js --watch",
+		"dev": "webpack-dev-server --config webpack.dev.js --open"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"@babel/core": "^7.4.4",
+		"@babel/plugin-syntax-dynamic-import": "^7.2.0",
+		"@babel/preset-env": "^7.4.4",
+		"@babel/preset-react": "^7.0.0",
+		"autoprefixer": "^9.5.1",
+		"babel-loader": "^8.0.5",
+		"clean-webpack-plugin": "^2.0.2",
+		"css-loader": "^2.1.1",
+		"cssnano": "^4.1.10",
+		"express": "^4.17.1",
+		"file-loader": "^3.0.1",
+		"friendly-errors-webpack-plugin": "^1.7.0",
+		"glob": "^7.1.4",
+		"html-webpack-externals-plugin": "^3.8.0",
+		"html-webpack-plugin": "^3.2.0",
+		"mini-css-extract-plugin": "^0.6.0",
+		"optimize-css-assets-webpack-plugin": "^5.0.1",
+		"postcss-loader": "^3.0.0",
+		"px2rem-loader": "^0.1.9",
+		"raw-loader": "^0.5.1",
+		"react": "^16.8.6",
+		"react-dom": "^16.8.6",
+		"style-loader": "^0.23.1",
+		"url-loader": "^4.1.1",
+		"webpack": "^4.47.0",
+		"webpack-cli": "^3.3.2",
+		"webpack-dev-server": "^3.11.3",
+		"webpack-merge": "^4.2.1"
+	},
+	"dependencies": {
+		"large-number": "^1.0.1",
+		"less": "^3.9.0",
+		"less-loader": "^5.0.0",
+		"lib-flexible": "^0.3.2"
+	}
+}

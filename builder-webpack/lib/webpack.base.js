@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
@@ -6,11 +7,13 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 const glob = require('glob');
 
+const projectRoot = process.cwd();
+
 const setMPA = () => {
   const entry = {};
   const HtmlWebpackPlugins = [];
 
-  const entryFile = glob.sync(path.join(__dirname, './src/*/index.js'));
+  const entryFile = glob.sync(path.join(projectRoot, './src/*/index.js'));
 
   entryFile.forEach((v) => {
     const match = v.match(/src\/(.*)\/index.js/);
@@ -18,7 +21,7 @@ const setMPA = () => {
     entry[pageName] = v;
     HtmlWebpackPlugins.push(
       new HtmlWebpackPlugin({
-        template: path.join(__dirname, `src/${pageName}/${pageName}.html`),
+        template: path.join(projectRoot, `src/${pageName}/${pageName}.html`),
         filename: `${pageName}.html`,
         chunks: [pageName],
         inject: true,
