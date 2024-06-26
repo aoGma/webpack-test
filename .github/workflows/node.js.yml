@@ -18,9 +18,9 @@ jobs:
         with:
           node-version: "10.15.3"
           cache: "npm"
-      - run: npm ci --verbose
+      - run: npm ci
       - name: Install builder-webpack Dependencies
-        run: npm ci --verbose
+        run: npm ci
         working-directory: ./builder-webpack
       - name: Install builder-webpack Dependencies
         run: npm run test
