@@ -20,13 +20,9 @@ jobs:
           cache: "npm"
       - run: npm ci
       - name: Install builder-webpack Dependencies
-        uses: actions/setup-node@v3
-        with:
-          node-version: "10.15.3"
-          cache: "npm"
         run: |
           echo $(pwd -P)
-          npm ci
+          npm i
         working-directory: ./builder-webpack
       - name: Install builder-webpack Dependencies
         run: npm run test
