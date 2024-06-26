@@ -20,6 +20,6 @@ jobs:
         node-version: '10.15.3'
         cache: 'npm'
     - run: npm ci
-    - run: cd ./test/smoke/template
-    - run: cd ../../../
+    - run: cd ./builder-webpack
+    - run: npm ci
     - run: npm test
