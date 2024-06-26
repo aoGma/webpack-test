@@ -7,28 +7,30 @@
 		"lib": "lib"
 	},
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1",
+		"test": "istanbul cover mocha",
 		"eslint": "eslint ./lib --fix"
 	},
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
+		"assert": "^2.0.0",
 		"autoprefixer": "^9.5.1",
 		"clean-webpack-plugin": "^2.0.2",
 		"cssnano": "^4.1.10",
 		"friendly-errors-webpack-plugin": "^1.7.0",
 		"glob": "^7.1.4",
+		"glob-all": "^3.1.0",
 		"html-webpack-externals-plugin": "^3.8.0",
 		"html-webpack-plugin": "^3.2.0",
+		"istanbul": "^0.4.5",
 		"mini-css-extract-plugin": "^0.6.0",
+		"mocha": "^6.1.4",
 		"optimize-css-assets-webpack-plugin": "^5.0.1",
 		"rimraf": "^2.6.3",
 		"webpack": "^4.47.0",
 		"webpack-cli": "^3.3.2",
 		"webpack-dev-server": "^3.11.3",
-		"mocha": "^6.1.4",
-		"glob-all": "^3.1.0",
 		"webpack-merge": "^4.2.1"
 	},
 	"devDependencies": {
