@@ -1,14 +1,20 @@
 "use strict";
 
+const Happypack = require("happypack");
 const path = require("path");
 const glob = require("glob");
 // const webpack = require("webpack");
+const TerserPlugin = require("terser-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
 const HtmlWebpackExternalsPlugin = require("html-webpack-externals-plugin");
 const FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin");
+const SpeedMeasureWebpackPlugin = require("speed-measure-webpack-plugin");
+const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
+
+const smp = new SpeedMeasureWebpackPlugin();
 
 const setMPA = () => {
 	const entry = {};
@@ -46,7 +52,7 @@ const setMPA = () => {
 
 const { entry, HtmlWebpackPlugins } = setMPA();
 
-module.exports = {
+module.exports = smp.wrap({
 	// stats: "errors-only",
 	entry,
 	output: {
@@ -59,7 +65,16 @@ module.exports = {
 		rules: [
 			{
 				test: /.js$/,
-				use: "babel-loader",
+				use: [
+					{
+						loader: "thread-loader",
+						options: {
+							workers: 3,
+						},
+					},
+					"babel-loader",
+				],
+				// use: ["happypack/loader"],
 			},
 			{
 				test: /.css$/,
@@ -115,6 +130,10 @@ module.exports = {
 		],
 	},
 	plugins: [
+		// new Happypack({
+		// 	loaders: ["babel-loader"],
+		// }),
+		// new BundleAnalyzerPlugin(),
 		new MiniCssExtractPlugin({
 			filename: "[name]_[contenthash:8].css",
 		}),
@@ -140,7 +159,7 @@ module.exports = {
 				},
 			],
 		}),
-		// new FriendlyErrorsWebpackPlugin(),
+		new FriendlyErrorsWebpackPlugin(),
 		function () {
 			this.hooks.done.tap("done", (stats) => {
 				if (
@@ -177,5 +196,12 @@ module.exports = {
 	// 		},
 	// 	},
 	// },
-	devtool: "source-map",
-};
+	optimization: {
+		minimizer: [
+			new TerserPlugin({
+				parallel: false,
+			}),
+		],
+	},
+	// devtool: "source-map",
+});
