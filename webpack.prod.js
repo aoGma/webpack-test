@@ -47,7 +47,7 @@ const setMPA = () => {
 const { entry, HtmlWebpackPlugins } = setMPA();
 
 module.exports = {
-	stats: "errors-only",
+	// stats: "errors-only",
 	entry,
 	output: {
 		path: path.resolve(__dirname, "dist"),
@@ -140,7 +140,7 @@ module.exports = {
 				},
 			],
 		}),
-		new FriendlyErrorsWebpackPlugin(),
+		// new FriendlyErrorsWebpackPlugin(),
 		function () {
 			this.hooks.done.tap("done", (stats) => {
 				if (
