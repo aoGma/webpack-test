@@ -9,7 +9,8 @@
 		"build:ssr": "webpack --config webpack.ssr.js",
 		"watch": "webpack --config webpack.dev.js --watch",
 		"dev": "webpack-dev-server --config webpack.dev.js --open",
-		"build:stats": "webpack --config ./builder-webpack/lib/webpack.prod.js --json > stats.json"
+		"build:stats": "webpack --config ./builder-webpack/lib/webpack.prod.js --json > stats.json",
+		"build:dll": "webpack --config ./webpack.dll.js"
 	},
 	"keywords": [],
 	"author": "",
@@ -30,6 +31,7 @@
 		"friendly-errors-webpack-plugin": "^1.7.0",
 		"glob": "^7.1.4",
 		"happypack": "^5.0.1",
+		"hard-source-webpack-plugin": "^0.13.1",
 		"html-webpack-externals-plugin": "^3.8.0",
 		"html-webpack-plugin": "^3.2.0",
 		"mini-css-extract-plugin": "^0.6.0",

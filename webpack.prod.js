@@ -3,7 +3,7 @@
 const Happypack = require("happypack");
 const path = require("path");
 const glob = require("glob");
-// const webpack = require("webpack");
+const webpack = require("webpack");
 const TerserPlugin = require("terser-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
@@ -13,6 +13,7 @@ const HtmlWebpackExternalsPlugin = require("html-webpack-externals-plugin");
 const FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin");
 const SpeedMeasureWebpackPlugin = require("speed-measure-webpack-plugin");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
+const HardSourceWebpackPlugin = require("hard-source-webpack-plugin");
 
 const smp = new SpeedMeasureWebpackPlugin();
 
@@ -65,16 +66,16 @@ module.exports = smp.wrap({
 		rules: [
 			{
 				test: /.js$/,
-				use: [
-					{
-						loader: "thread-loader",
-						options: {
-							workers: 3,
-						},
-					},
-					"babel-loader",
-				],
-				// use: ["happypack/loader"],
+				// use: [
+				// 	{
+				// 		loader: "thread-loader",
+				// 		options: {
+				// 			workers: 3,
+				// 		},
+				// 	},
+				// 	"babel-loader",
+				// ],
+				use: ["happypack/loader"],
 			},
 			{
 				test: /.css$/,
@@ -130,9 +131,9 @@ module.exports = smp.wrap({
 		],
 	},
 	plugins: [
-		// new Happypack({
-		// 	loaders: ["babel-loader"],
-		// }),
+		new Happypack({
+			loaders: ["babel-loader?cacheDirectory=true"],
+		}),
 		// new BundleAnalyzerPlugin(),
 		new MiniCssExtractPlugin({
 			filename: "[name]_[contenthash:8].css",
@@ -143,22 +144,23 @@ module.exports = smp.wrap({
 		}),
 		// new webpack.optimize.ModuleConcatenationPlugin(),
 		new CleanWebpackPlugin(),
-		new HtmlWebpackExternalsPlugin({
-			externals: [
-				{
-					module: "react",
-					entry:
-						"https://cdnjs.cloudflare.com/ajax/libs/react/16.2.0/umd/react.production.min.js",
-					global: "React",
-				},
-				{
-					module: "react-dom",
-					entry:
-						"https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.2.0/umd/react-dom.production.min.js",
-					global: "ReactDOM",
-				},
-			],
-		}),
+		// new HtmlWebpackExternalsPlugin({
+		// 	externals: [
+		// 		{
+		// 			module: "react",
+		// 			entry:
+		// 				"https://cdnjs.cloudflare.com/ajax/libs/react/16.2.0/umd/react.production.min.js",
+		// 			global: "React",
+		// 		},
+		// 		{
+		// 			module: "react-dom",
+		// 			entry:
+		// 				"https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.2.0/umd/react-dom.production.min.js",
+		// 			global: "ReactDOM",
+		// 		},
+		// 	],
+		// }),
+		new HardSourceWebpackPlugin(),
 		new FriendlyErrorsWebpackPlugin(),
 		function () {
 			this.hooks.done.tap("done", (stats) => {
@@ -172,6 +174,9 @@ module.exports = smp.wrap({
 				}
 			});
 		},
+		new webpack.DllReferencePlugin({
+			manifest: "./build/library/library.json",
+		}),
 	].concat(HtmlWebpackPlugins),
 	// optimization: {
 	// 	splitChunks: {
@@ -200,6 +205,7 @@ module.exports = smp.wrap({
 		minimizer: [
 			new TerserPlugin({
 				parallel: false,
+				cache: true,
 			}),
 		],
 	},
