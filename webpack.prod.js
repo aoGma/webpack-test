@@ -65,6 +65,7 @@ module.exports = smp.wrap({
 	module: {
 		rules: [
 			{
+				include: path.resolve("src"),
 				test: /.js$/,
 				// use: [
 				// 	{
@@ -76,6 +77,7 @@ module.exports = smp.wrap({
 				// 	"babel-loader",
 				// ],
 				use: ["happypack/loader"],
+				// exclude: "./node_modules",
 			},
 			{
 				test: /.css$/,
@@ -208,6 +210,20 @@ module.exports = smp.wrap({
 				cache: true,
 			}),
 		],
+	},
+	resolve: {
+		alias: {
+			react: path.resolve(
+				__dirname,
+				"./node_modules/react/umd/react.production.min.js"
+			),
+			"react-dom": path.resolve(
+				__dirname,
+				"./node_modules/react-dom/umd/react-dom.production.min.js"
+			),
+			extensions: ".js",
+			maniFields: "main",
+		},
 	},
 	// devtool: "source-map",
 });
