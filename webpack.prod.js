@@ -14,8 +14,12 @@ const FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin");
 const SpeedMeasureWebpackPlugin = require("speed-measure-webpack-plugin");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const HardSourceWebpackPlugin = require("hard-source-webpack-plugin");
+const PurgecssWebpackPlugin = require("purgecss-webpack-plugin");
 
 const smp = new SpeedMeasureWebpackPlugin();
+const PATHS = {
+	src: path.resolve(__dirname, "src"),
+};
 
 const setMPA = () => {
 	const entry = {};
@@ -157,6 +161,9 @@ module.exports = smp.wrap({
 		],
 	},
 	plugins: [
+		new PurgecssWebpackPlugin({
+			paths: glob.sync(`${PATHS.src}/**/*`, { nodir: true }),
+		}),
 		new Happypack({
 			loaders: ["babel-loader?cacheDirectory=true"],
 		}),
